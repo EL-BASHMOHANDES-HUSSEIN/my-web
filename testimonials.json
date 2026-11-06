@@ -1,0 +1,20 @@
+[
+  {
+    "id": "t_init_1",
+    "date": "2026-11-06T15:00:00.000Z",
+    "name": "Eng. Karrar Al-Saadi",
+    "role": "Full-Stack Developer",
+    "text": "The custom Python automation scripts developed by Hussain Ali for data scraping are remarkably fast and accurate. Outstanding engineering quality!",
+    "rating": 5,
+    "pending": false
+  },
+  {
+    "id": "t_init_2",
+    "date": "2026-11-06T18:30:00.000Z",
+    "name": "Mustafa Tariq",
+    "role": "Digital Marketing Specialist",
+    "text": "The Social Comments Scraper tool made giveaway management effortless. Filtering thousands of Instagram comments and exporting to Excel took just seconds.",
+    "rating": 5,
+    "pending": false
+  }
+]

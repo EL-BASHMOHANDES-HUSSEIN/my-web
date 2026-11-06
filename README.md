@@ -2,11 +2,11 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:070c19,100:4291f4&height=220&section=header&text=HUSNEX&fontSize=68&fontColor=ffffff&fontAlignY=38&desc=Enterprise%20Digital%20Solutions%20%26%20Software%20Automation&descSize=18&descAlignY=62" width="100%" alt="HUSNEX Banner"/>
 
-# HUSNEX — Digital Solutions & Software Automation
+# HUSNEX - Digital Solutions & Software Automation
 
 ### Founder & Principal Engineer: Hussain Ali
 
-**IT & Cybersecurity Engineer &nbsp;•&nbsp; Python Systems Developer &nbsp;•&nbsp; Automation Specialist**
+**IT & Cybersecurity Engineer &nbsp;|&nbsp; Python Systems Developer &nbsp;|&nbsp; Automation Specialist**
 
 <br>
 
@@ -17,6 +17,9 @@
 </a>
 <a href="https://github.com/el-bashmohandes-hussein">
   <img src="https://img.shields.io/badge/GitHub-el--bashmohandes--hussein-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+</a>
+<a href="mailto:husseinalihashm@gmail.com">
+  <img src="https://img.shields.io/badge/Email-husseinalihashm@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Direct Email"/>
 </a>
 
 <br><br>
@@ -34,25 +37,25 @@
 
 ---
 
-## 🚀 About The Founder
+## About The Founder
 
 | Category | Details |
 |:--|:--|
-| 🎓 **University** | Middle Technical University — Polytechnic College of Engineering |
-| 🔒 **Major** | Information Technology Engineering & Cybersecurity |
-| 🏢 **Corporate Role** | Founder & Principal Architect at **HUSNEX** |
-| 💻 **Core Focus** | Python Systems, Intelligent Process Automation & Security Tools |
-| 🎯 **Mission** | Building autonomous digital utilities and mastering defensive cybersecurity |
+| **University** | Middle Technical University - Polytechnic College of Engineering |
+| **Major** | Information Technology Engineering & Cybersecurity |
+| **Corporate Role** | Founder & Principal Architect at **HUSNEX** |
+| **Core Focus** | Python Systems, Intelligent Process Automation & Security Tools |
+| **Mission** | Building autonomous digital utilities and mastering defensive cybersecurity |
 
 <br>
 
 ---
 
-## 🏢 About HUSNEX
+## About HUSNEX
 
 <div align="center">
 
-**HUSNEX** — *منصة الحلول البرمجية المتكاملة والأتمتة الذكية*
+**HUSNEX** - *منصة الحلول البرمجية المتكاملة والأتمتة الذكية*
 
 HUSNEX is a digital technology platform providing custom software microservices, intelligent scraping utilities, and workflow automation solutions.
 
@@ -62,24 +65,36 @@ HUSNEX is a digital technology platform providing custom software microservices,
 
 | Service Track | Description |
 |:--|:--|
-| 🐍 **Custom Python Engineering** | High-performance, modular scripts and services tailored to solve specific real-world bottlenecks. |
-| ⚙️ **Process Automation & Scraping** | Automated data extraction engines (e.g. social media comment harvesters) with Excel/CSV reporting. |
-| 🛡️ **Cybersecurity & Digital Consulting** | Defensive security reviews, workflow auditing, and resilient tech adoption. |
+| **Custom Python Engineering** | High-performance, modular scripts and services tailored to solve specific real-world bottlenecks. |
+| **Process Automation & Scraping** | Automated data extraction engines (e.g. social media comment harvesters) with Excel/CSV reporting. |
+| **Cybersecurity & Digital Consulting** | Defensive security reviews, workflow auditing, and resilient tech adoption. |
 
 <br>
 
 ---
 
-## 🛠️ Flagship Tools & Repositories
+## Key Platform Features
 
-- 🌐 **Official Platform Website**: [`EL-BASHMOHANDES-HUSSEIN/my-web`](https://github.com/EL-BASHMOHANDES-HUSSEIN/my-web) (Deployed at [https://el-bashmohandes-hussein.github.io/my-web/](https://el-bashmohandes-hussein.github.io/my-web/))
-- ⚡ **Social Comments Scraper**: [`EL-BASHMOHANDES-HUSSEIN/social-comments-scraper`](https://github.com/EL-BASHMOHANDES-HUSSEIN/social-comments-scraper) — Automated Python tool for extracting, deduplicating, and filtering social media comments with Excel export.
+- **Lag-Free Hero-to-Navbar Logo Animation**: 60fps dynamic transition moving the transparent HUSNEX centerpiece directly into the sticky top navigation bar upon scrolling.
+- **Pure Vector Iconography**: 100% frameless SVG assets (Python official logo, cyber security shields, automation gears, graduation caps, ratings).
+- **Direct Email Contact Form**: Integrated direct submission pipeline targeting `husseinalihashm@gmail.com` with real-time field validation and feedback indicators.
+- **Moderated Community Testimonials**: Public feedback submission pipeline paired with an owner-only approval/deletion console powered by GitHub API.
+- **Zero-Data-Loss Publishing Pipeline**: GitHub Contents API commit pipeline with multi-byte UTF-8 Base64 encoding, fresh SHA conflict auto-retries, and optimistic client-side caching.
 
 <br>
 
 ---
 
-## 🌐 Connect With Me
+## Flagship Tools & Repositories
+
+- **Official Platform Website**: [`EL-BASHMOHANDES-HUSSEIN/my-web`](https://github.com/EL-BASHMOHANDES-HUSSEIN/my-web) (Deployed at [https://el-bashmohandes-hussein.github.io/my-web/](https://el-bashmohandes-hussein.github.io/my-web/))
+- **Social Comments Scraper**: [`EL-BASHMOHANDES-HUSSEIN/social-comments-scraper`](https://github.com/EL-BASHMOHANDES-HUSSEIN/social-comments-scraper) - Automated Python tool for extracting, deduplicating, and filtering social media comments with Excel export.
+
+<br>
+
+---
+
+## Connect With Me
 
 <div align="center">
 
@@ -94,10 +109,14 @@ HUSNEX is a digital technology platform providing custom software microservices,
 <a href="https://wa.me/9647715618998">
   <img src="https://img.shields.io/badge/WhatsApp-Chat-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="WhatsApp"/>
 </a>
+&nbsp;
+<a href="mailto:husseinalihashm@gmail.com">
+  <img src="https://img.shields.io/badge/Email-Send_Message-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+</a>
 
 <br><br>
 
-<i>"Building secure code, one script at a time." — <b>HUSNEX</b> 🚀</i>
+<i>"Building secure code, one script at a time." - <b>HUSNEX</b></i>
 
 <br>
 
