@@ -2292,12 +2292,12 @@
 
               <div id="firebaseConfigFields">
                 <label class="field">
-                  <span data-en="Firebase Database Endpoint URL" data-ar="رابط قاعدة بيانات Firebase">Firebase Database Endpoint URL</span>
-                  <input class="input" id="cfgFirebaseUrl" dir="ltr" placeholder="https://your-project-default-rtdb.firebaseio.com/comments">
+                  <span data-en="Firebase Database Root URL" data-ar="رابط قاعدة بيانات Firebase الأساسي">Firebase Database Root URL</span>
+                  <input class="input" id="cfgFirebaseUrl" dir="ltr" placeholder="https://husnex-default-rtdb.firebaseio.com">
                   <small style="color:var(--muted); font-size:0.75rem;"
-                         data-en="Free Google Firebase: console.firebase.google.com -> Create Project -> Realtime Database -> Start in Test Mode -> Paste URL"
-                         data-ar="خدمة مجانية بالكامل: ادخل إلى console.firebase.google.com -> أنشئ مشروعاً -> Realtime Database -> انسخ الرابط المباشر">
-                    Free Google Firebase: console.firebase.google.com -> Create Project -> Realtime Database -> Start in Test Mode -> Paste URL
+                         data-en="Active: https://husnex-default-rtdb.firebaseio.com (Child path /comments.json resolved automatically)"
+                         data-ar="الرابط النشط: https://husnex-default-rtdb.firebaseio.com (يتم توجيه مسار /comments.json تلقائياً)">
+                    Active: https://husnex-default-rtdb.firebaseio.com (Child path /comments.json resolved automatically)
                   </small>
                 </label>
               </div>
@@ -2593,9 +2593,13 @@
         whatsapp: '9647715618998',
         github: 'https://github.com/el-bashmohandes-hussein'
       },
+      firebase: {
+        databaseURL: 'https://husnex-default-rtdb.firebaseio.com',
+        commentsPath: 'comments'
+      },
       commentsCloud: {
         provider: 'firebase',
-        firebaseUrl: 'https://husnex-hub-default-rtdb.firebaseio.com/comments',
+        firebaseUrl: 'https://husnex-default-rtdb.firebaseio.com',
         supabaseUrl: '',
         supabaseAnonKey: ''
       },
@@ -2986,6 +2990,34 @@
        7.5 Cross-Device Cloud Sync Engine for Moderated Testimonials
        ========================================================================== */
     const CommentsCloud = {
+
+      /* -----------------------------------------------------------------------
+         _fb(): مساعد داخلي يُعيد مسارات Firebase الصحيحة بشكل مضمون
+         يقبل أي صيغة مدخلة ويحلّها:
+           • https://husnex-default-rtdb.firebaseio.com
+           • https://husnex-default-rtdb.firebaseio.com/comments
+           • https://husnex-default-rtdb.firebaseio.com/comments.json
+         ويُرجع الكائن:
+           { commentsUrl, itemUrl(cloudKey) }
+      ----------------------------------------------------------------------- */
+      _fb: function(rawUrl) {
+        // 1. نزيل المسافات وأي / أو .json زائدة من النهاية
+        var root = (rawUrl || '').trim()
+          .replace(/\.json$/i, '')
+          .replace(/\/+$/, '');
+        // 2. إذا كان المدخل ينتهي بـ /comments نزيله لنبقى عند جذر المشروع
+        root = root.replace(/\/comments$/i, '').replace(/\/+$/, '');
+        // 3. نبني الروابط الصحيحة:
+        //    commentsUrl  → root/comments.json       (جلب + إضافة)
+        //    itemUrl(key) → root/comments/KEY.json   (تعديل + حذف)
+        return {
+          commentsUrl: root + '/comments.json',
+          itemUrl: function(key) {
+            return root + '/comments/' + encodeURIComponent(key) + '.json';
+          }
+        };
+      },
+
       getConfig: function() {
         var base = Object.assign({}, CFG.commentsCloud);
         try {
@@ -3003,18 +3035,57 @@
         } catch(e){}
       },
 
+      /* checkConnection()
+         يفحص الاتصال بـ Firebase RTDB بغض النظر إن كانت البيانات null أو فعلية:
+         200 OK دليل قاطع على أن القاعدة متاحة وقواعد الأمان صحيحة. */
+      checkConnection: async function() {
+        var cfg = this.getConfig();
+        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
+          try {
+            var ep = this._fb(cfg.firebaseUrl);
+            Logger.info('checkConnection → testing: ' + ep.commentsUrl);
+            var resp = await fetch(ep.commentsUrl, { cache: 'no-store' });
+            // response.ok يعني 200-299 بما فيها null body
+            return { ok: resp.ok, status: resp.status };
+          } catch(e) {
+            Logger.warn('checkConnection Firebase failed', e);
+            return { ok: false, error: e.message };
+          }
+        }
+        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          try {
+            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?select=id&limit=1';
+            var sResp = await fetch(sUrl, {
+              headers: { 'apikey': cfg.supabaseAnonKey, 'Authorization': 'Bearer ' + cfg.supabaseAnonKey },
+              cache: 'no-store'
+            });
+            return { ok: sResp.ok, status: sResp.status };
+          } catch(e) {
+            return { ok: false, error: e.message };
+          }
+        }
+        return { ok: false, error: 'No cloud provider configured' };
+      },
+
+      /* testConnection() — نسخة بوليانية بسيطة للـ UI */
+      testConnection: async function() {
+        var result = await this.checkConnection();
+        return result.ok;
+      },
+
+      /* fetchAll() — جلب كل التعليقات من السحابة */
       fetchAll: async function() {
         var cfg = this.getConfig();
         var results = [];
 
-        // 1. Firebase Realtime Database
         if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
           try {
-            var url = cfg.firebaseUrl.replace(/\/+$/, '') + '.json';
-            var resp = await fetch(url, { cache: 'no-store' });
+            var ep = this._fb(cfg.firebaseUrl);
+            var resp = await fetch(ep.commentsUrl, { cache: 'no-store' });
             if (resp.ok) {
               var data = await resp.json();
-              if (data && typeof data === 'object') {
+              // null يعني قاعدة البيانات فارغة، وهذا طبيعي تماماً
+              if (data && typeof data === 'object' && !Array.isArray(data)) {
                 Object.keys(data).forEach(function(key) {
                   var item = data[key];
                   if (item && typeof item === 'object') {
@@ -3023,15 +3094,15 @@
                   }
                 });
               }
-              Logger.info('Fetched comments from Firebase Cloud DB (' + results.length + ')');
-              return results;
+              Logger.info('Firebase loadComments: ' + results.length + ' item(s)');
+            } else {
+              Logger.warn('Firebase fetchAll HTTP ' + resp.status);
             }
           } catch(err) {
-            Logger.warn('Firebase comments fetch failed', err);
+            Logger.warn('Firebase fetchAll error', err);
           }
         }
 
-        // 2. Supabase
         if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
           try {
             var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?select=*';
@@ -3046,45 +3117,56 @@
               var sData = await sResp.json();
               if (Array.isArray(sData)) {
                 results = sData;
-                Logger.info('Fetched comments from Supabase (' + results.length + ')');
-                return results;
+                Logger.info('Supabase loadComments: ' + results.length + ' item(s)');
               }
             }
           } catch(err) {
-            Logger.warn('Supabase comments fetch failed', err);
+            Logger.warn('Supabase fetchAll error', err);
           }
         }
 
         return results;
       },
 
+      /* submitReview() — إضافة تعليق جديد بحالة pending: true */
       submitReview: async function(reviewObj) {
         var cfg = this.getConfig();
         var saved = false;
 
-        // Firebase RTDB
         if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
           try {
-            var url = cfg.firebaseUrl.replace(/\/+$/, '') + '.json';
-            var resp = await fetch(url, {
+            var ep = this._fb(cfg.firebaseUrl);
+            // POST إلى /comments.json يُنشئ مفتاحاً فريداً تلقائياً (-Lxxx...)
+            var resp = await fetch(ep.commentsUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(reviewObj)
+              body: JSON.stringify({
+                id:      reviewObj.id,
+                type:    reviewObj.type    || 'comment',
+                date:    reviewObj.date    || new Date().toISOString(),
+                name:    reviewObj.name,
+                role:    reviewObj.role    || 'Collaborator',
+                rating:  Number(reviewObj.rating) || 5,
+                text:    reviewObj.text,
+                pending: reviewObj.pending !== undefined ? Boolean(reviewObj.pending) : true
+              })
             });
             if (resp.ok) {
               var resData = await resp.json();
+              // Firebase يُرجع { "name": "-P5qrXxx" } وهو الـ cloudKey
               if (resData && resData.name) {
                 reviewObj._cloudKey = resData.name;
               }
               saved = true;
-              Logger.success('Review saved to Firebase Cloud DB', reviewObj.id);
+              Logger.success('addComment Firebase OK → cloudKey=' + reviewObj._cloudKey);
+            } else {
+              Logger.warn('addComment Firebase HTTP ' + resp.status);
             }
           } catch(e) {
-            Logger.warn('Firebase submit review failed', e);
+            Logger.warn('addComment Firebase error', e);
           }
         }
 
-        // Supabase
         if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
           try {
             var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments';
@@ -3100,38 +3182,45 @@
             });
             if (sResp.ok) {
               saved = true;
-              Logger.success('Review saved to Supabase', reviewObj.id);
+              Logger.success('addComment Supabase OK', reviewObj.id);
             }
           } catch(e) {
-            Logger.warn('Supabase submit review failed', e);
+            Logger.warn('addComment Supabase error', e);
           }
         }
 
         return saved;
       },
 
+      /* approveReview() — تعديل pending إلى false (موافقة المالك) */
       approveReview: async function(reviewId, cloudKey) {
         var cfg = this.getConfig();
 
         if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
           try {
+            var ep = this._fb(cfg.firebaseUrl);
             var targetKey = cloudKey;
+            // إذا لم يُمرَّر الـ cloudKey نجلبه من السحابة
             if (!targetKey) {
               var all = await this.fetchAll();
               var found = all.find(function(a){ return a.id === reviewId; });
               if (found && found._cloudKey) targetKey = found._cloudKey;
             }
             if (targetKey) {
-              var patchUrl = cfg.firebaseUrl.replace(/\/+$/, '') + '/' + targetKey + '.json';
-              await fetch(patchUrl, {
+              // PATCH إلى /comments/KEY.json يُعدّل الحقل فقط دون حذف باقي البيانات
+              var patchResp = await fetch(ep.itemUrl(targetKey), {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ pending: false })
               });
-              Logger.success('Review approved in Firebase Cloud DB', reviewId);
+              if (patchResp.ok) {
+                Logger.success('approveReview Firebase OK → ' + reviewId);
+              } else {
+                Logger.warn('approveReview Firebase HTTP ' + patchResp.status);
+              }
             }
           } catch(e) {
-            Logger.warn('Firebase approve review failed', e);
+            Logger.warn('approveReview Firebase error', e);
           }
         }
 
@@ -3147,18 +3236,20 @@
               },
               body: JSON.stringify({ pending: false })
             });
-            Logger.success('Review approved in Supabase', reviewId);
+            Logger.success('approveReview Supabase OK → ' + reviewId);
           } catch(e) {
-            Logger.warn('Supabase approve review failed', e);
+            Logger.warn('approveReview Supabase error', e);
           }
         }
       },
 
+      /* deleteReview() — حذف تعليق نهائياً من السحابة */
       deleteReview: async function(reviewId, cloudKey) {
         var cfg = this.getConfig();
 
         if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
           try {
+            var ep = this._fb(cfg.firebaseUrl);
             var targetKey = cloudKey;
             if (!targetKey) {
               var all = await this.fetchAll();
@@ -3166,12 +3257,16 @@
               if (found && found._cloudKey) targetKey = found._cloudKey;
             }
             if (targetKey) {
-              var delUrl = cfg.firebaseUrl.replace(/\/+$/, '') + '/' + targetKey + '.json';
-              await fetch(delUrl, { method: 'DELETE' });
-              Logger.success('Review deleted from Firebase Cloud DB', reviewId);
+              // DELETE إلى /comments/KEY.json يحذف العنصر بالكامل
+              var delResp = await fetch(ep.itemUrl(targetKey), { method: 'DELETE' });
+              if (delResp.ok) {
+                Logger.success('deleteReview Firebase OK → ' + reviewId);
+              } else {
+                Logger.warn('deleteReview Firebase HTTP ' + delResp.status);
+              }
             }
           } catch(e) {
-            Logger.warn('Firebase delete review failed', e);
+            Logger.warn('deleteReview Firebase error', e);
           }
         }
 
@@ -3185,33 +3280,11 @@
                 'Authorization': 'Bearer ' + cfg.supabaseAnonKey
               }
             });
-            Logger.success('Review deleted from Supabase', reviewId);
+            Logger.success('deleteReview Supabase OK → ' + reviewId);
           } catch(e) {
-            Logger.warn('Supabase delete review failed', e);
+            Logger.warn('deleteReview Supabase error', e);
           }
         }
-      },
-
-      testConnection: async function() {
-        var cfg = this.getConfig();
-        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
-          try {
-            var testUrl = cfg.firebaseUrl.replace(/\/+$/, '') + '.json?shallow=true';
-            var resp = await fetch(testUrl, { cache: 'no-store' });
-            return resp.ok;
-          } catch(e) { return false; }
-        }
-        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
-          try {
-            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?select=count';
-            var resp = await fetch(sUrl, {
-              headers: { 'apikey': cfg.supabaseAnonKey, 'Authorization': 'Bearer ' + cfg.supabaseAnonKey },
-              cache: 'no-store'
-            });
-            return resp.ok;
-          } catch(e) { return false; }
-        }
-        return false;
       }
     };
 
