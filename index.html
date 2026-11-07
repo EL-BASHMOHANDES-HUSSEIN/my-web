@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HUSNEX — Digital Solutions &amp; Automation Platform</title>
+  <title>HUSNEX</title>
   <meta name="description" content="HUSNEX — Enterprise-grade digital solutions, custom Python software, intelligent automation, and cybersecurity systems. Founded by Hussain Ali.">
   <meta name="theme-color" content="#070c19">
   <meta name="author" content="Hussain Ali">
@@ -268,12 +268,20 @@
       height: 40px;
       display: grid;
       place-items: center;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
     }
 
     .brand-logo-img {
       width: 38px;
       height: 38px;
       object-fit: contain;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
       filter: drop-shadow(0 0 10px rgba(101, 214, 245, 0.45));
     }
 
@@ -432,12 +440,20 @@
       position: relative;
       width: min(340px, 72vw);
       margin: 0 auto 24px;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
     }
 
     .hero-logo-img {
       width: 100%;
       height: auto;
       object-fit: contain;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
       filter: drop-shadow(0 12px 30px rgba(66, 145, 244, 0.45)) drop-shadow(0 0 16px rgba(101, 214, 245, 0.3));
       animation: floatCenterpiece 6s ease-in-out infinite;
     }
@@ -2167,6 +2183,10 @@
               <span data-en="Pending Comments" data-ar="التعليقات المعلقة">Pending Comments</span>
               <span class="chip sm" id="modCountBadge" style="padding: 2px 8px; font-size: 0.72rem;">0</span>
             </button>
+            <button type="button" class="tab-btn" id="tabCloudBtn">
+              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+              <span data-en="Cloud Sync" data-ar="المزامنة السحابية">Cloud Sync</span>
+            </button>
           </div>
 
           <!-- 1. Post Publishing Panel -->
@@ -2243,6 +2263,71 @@
             <div class="status-panel" id="modStatusPanel">
               <div class="status-spinner" id="modSpinner" hidden></div>
               <div id="modStatusMessage"></div>
+            </div>
+          </div>
+
+          <!-- 3. Cloud Database Settings Panel (Cross-Device Sync) -->
+          <div id="cloudPanel" hidden>
+            <div style="background: rgba(14, 25, 48, 0.65); border: 1px solid rgba(101, 214, 245, 0.28); border-radius: 14px; padding: 24px; margin-bottom: 24px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <h4 style="margin: 0; color: var(--primary-2); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                  <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: var(--primary-2);"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+                  <span data-en="Cross-Device Cloud Sync Engine" data-ar="محرك المزامنة السحابية الفوري الشامل">Cross-Device Cloud Sync Engine</span>
+                </h4>
+                <span class="chip sm" id="cloudStatusBadge" style="background: rgba(66, 145, 244, 0.2); color: var(--primary-2);">Active Engine</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 18px; line-height: 1.5;"
+                 data-en="Connects user reviews across mobile phones, laptops, and tablets instantaneously. Supports Firebase Realtime Database and Supabase cloud endpoints."
+                 data-ar="يربط تعليقات الزوار بين الهواتف المحمولة وأجهزة الكمبيوتر والأجهزة اللوحية لحظياً في قاعدة بيانات سحابية موحدة. يدعم Firebase Realtime Database و Supabase.">
+                Connects user reviews across mobile phones, laptops, and tablets instantaneously. Supports Firebase Realtime Database and Supabase cloud endpoints.
+              </p>
+
+              <div class="field">
+                <span data-en="Cloud Provider" data-ar="مزود قاعدة البيانات السحابية">Cloud Provider</span>
+                <select class="input" id="cloudProviderSelect">
+                  <option value="firebase">Firebase Realtime Database (Google Cloud) — Recommended</option>
+                  <option value="supabase">Supabase (PostgreSQL Cloud REST)</option>
+                </select>
+              </div>
+
+              <div id="firebaseConfigFields">
+                <label class="field">
+                  <span data-en="Firebase Database Endpoint URL" data-ar="رابط قاعدة بيانات Firebase">Firebase Database Endpoint URL</span>
+                  <input class="input" id="cfgFirebaseUrl" dir="ltr" placeholder="https://your-project-default-rtdb.firebaseio.com/comments">
+                  <small style="color:var(--muted); font-size:0.75rem;"
+                         data-en="Free Google Firebase: console.firebase.google.com -> Create Project -> Realtime Database -> Start in Test Mode -> Paste URL"
+                         data-ar="خدمة مجانية بالكامل: ادخل إلى console.firebase.google.com -> أنشئ مشروعاً -> Realtime Database -> انسخ الرابط المباشر">
+                    Free Google Firebase: console.firebase.google.com -> Create Project -> Realtime Database -> Start in Test Mode -> Paste URL
+                  </small>
+                </label>
+              </div>
+
+              <div id="supabaseConfigFields" hidden>
+                <label class="field">
+                  <span data-en="Supabase REST URL" data-ar="رابط مشروع Supabase">Supabase REST URL</span>
+                  <input class="input" id="cfgSupabaseUrl" dir="ltr" placeholder="https://your-project.supabase.co">
+                </label>
+                <label class="field">
+                  <span data-en="Supabase Anon Public Key" data-ar="مفتاح Supabase العام (Anon Key)">Supabase Anon Public Key</span>
+                  <input class="input" id="cfgSupabaseKey" dir="ltr" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                </label>
+              </div>
+
+              <div style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSaveCloudCfg">
+                  <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: currentColor;"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+                  <span data-en="Save Cloud Configuration" data-ar="حفظ الإعدادات">Save Cloud Configuration</span>
+                </button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnTestCloudCfg">
+                  <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                  <span data-en="Test Connection" data-ar="فحص الاتصال">Test Connection</span>
+                </button>
+              </div>
+
+              <div class="status-panel" id="cloudStatusPanel" style="margin-top: 14px;" role="status" aria-live="polite">
+                <div class="status-spinner" id="cloudSpinner" hidden></div>
+                <div id="cloudStatusMessage"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -2508,11 +2593,17 @@
         whatsapp: '9647715618998',
         github: 'https://github.com/el-bashmohandes-hussein'
       },
+      commentsCloud: {
+        provider: 'firebase',
+        firebaseUrl: 'https://husnex-hub-default-rtdb.firebaseio.com/comments',
+        supabaseUrl: '',
+        supabaseAnonKey: ''
+      },
       storageKeys: {
         token: 'hx_admin_token',
         lang: 'hx_preferred_lang',
         localPostsBackup: 'hx_posts_cache_v3',
-        localPendingComments: 'hx_pending_comments_v3'
+        cloudConfig: 'hx_cloud_comments_cfg_v1'
       }
     });
 
@@ -2588,9 +2679,7 @@
       });
 
       if (langText) langText.textContent = (lang === 'ar') ? 'English' : 'العربية';
-      document.title = (lang === 'ar')
-        ? 'HUSNEX | منصة الحلول البرمجية والأتمتة الذكية'
-        : 'HUSNEX — Digital Solutions & Automation Platform';
+      document.title = 'HUSNEX';
 
       try { localStorage.setItem(CFG.storageKeys.lang, lang); } catch(e){}
       restartTyping();
@@ -2893,6 +2982,242 @@
     /* ==========================================================================
        8. Unified Data Persistence Engine (Posts & Moderated Comments)
        ========================================================================== */
+    /* ==========================================================================
+       7.5 Cross-Device Cloud Sync Engine for Moderated Testimonials
+       ========================================================================== */
+    const CommentsCloud = {
+      getConfig: function() {
+        var base = Object.assign({}, CFG.commentsCloud);
+        try {
+          var saved = JSON.parse(localStorage.getItem(CFG.storageKeys.cloudConfig) || '{}');
+          if (saved && typeof saved === 'object') {
+            base = Object.assign(base, saved);
+          }
+        } catch(e){}
+        return base;
+      },
+
+      saveConfig: function(cfg) {
+        try {
+          localStorage.setItem(CFG.storageKeys.cloudConfig, JSON.stringify(cfg));
+        } catch(e){}
+      },
+
+      fetchAll: async function() {
+        var cfg = this.getConfig();
+        var results = [];
+
+        // 1. Firebase Realtime Database
+        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
+          try {
+            var url = cfg.firebaseUrl.replace(/\/+$/, '') + '.json';
+            var resp = await fetch(url, { cache: 'no-store' });
+            if (resp.ok) {
+              var data = await resp.json();
+              if (data && typeof data === 'object') {
+                Object.keys(data).forEach(function(key) {
+                  var item = data[key];
+                  if (item && typeof item === 'object') {
+                    item._cloudKey = key;
+                    results.push(item);
+                  }
+                });
+              }
+              Logger.info('Fetched comments from Firebase Cloud DB (' + results.length + ')');
+              return results;
+            }
+          } catch(err) {
+            Logger.warn('Firebase comments fetch failed', err);
+          }
+        }
+
+        // 2. Supabase
+        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          try {
+            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?select=*';
+            var sResp = await fetch(sUrl, {
+              headers: {
+                'apikey': cfg.supabaseAnonKey,
+                'Authorization': 'Bearer ' + cfg.supabaseAnonKey
+              },
+              cache: 'no-store'
+            });
+            if (sResp.ok) {
+              var sData = await sResp.json();
+              if (Array.isArray(sData)) {
+                results = sData;
+                Logger.info('Fetched comments from Supabase (' + results.length + ')');
+                return results;
+              }
+            }
+          } catch(err) {
+            Logger.warn('Supabase comments fetch failed', err);
+          }
+        }
+
+        return results;
+      },
+
+      submitReview: async function(reviewObj) {
+        var cfg = this.getConfig();
+        var saved = false;
+
+        // Firebase RTDB
+        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
+          try {
+            var url = cfg.firebaseUrl.replace(/\/+$/, '') + '.json';
+            var resp = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(reviewObj)
+            });
+            if (resp.ok) {
+              var resData = await resp.json();
+              if (resData && resData.name) {
+                reviewObj._cloudKey = resData.name;
+              }
+              saved = true;
+              Logger.success('Review saved to Firebase Cloud DB', reviewObj.id);
+            }
+          } catch(e) {
+            Logger.warn('Firebase submit review failed', e);
+          }
+        }
+
+        // Supabase
+        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          try {
+            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments';
+            var sResp = await fetch(sUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': cfg.supabaseAnonKey,
+                'Authorization': 'Bearer ' + cfg.supabaseAnonKey,
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify(reviewObj)
+            });
+            if (sResp.ok) {
+              saved = true;
+              Logger.success('Review saved to Supabase', reviewObj.id);
+            }
+          } catch(e) {
+            Logger.warn('Supabase submit review failed', e);
+          }
+        }
+
+        return saved;
+      },
+
+      approveReview: async function(reviewId, cloudKey) {
+        var cfg = this.getConfig();
+
+        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
+          try {
+            var targetKey = cloudKey;
+            if (!targetKey) {
+              var all = await this.fetchAll();
+              var found = all.find(function(a){ return a.id === reviewId; });
+              if (found && found._cloudKey) targetKey = found._cloudKey;
+            }
+            if (targetKey) {
+              var patchUrl = cfg.firebaseUrl.replace(/\/+$/, '') + '/' + targetKey + '.json';
+              await fetch(patchUrl, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pending: false })
+              });
+              Logger.success('Review approved in Firebase Cloud DB', reviewId);
+            }
+          } catch(e) {
+            Logger.warn('Firebase approve review failed', e);
+          }
+        }
+
+        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          try {
+            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?id=eq.' + encodeURIComponent(reviewId);
+            await fetch(sUrl, {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': cfg.supabaseAnonKey,
+                'Authorization': 'Bearer ' + cfg.supabaseAnonKey
+              },
+              body: JSON.stringify({ pending: false })
+            });
+            Logger.success('Review approved in Supabase', reviewId);
+          } catch(e) {
+            Logger.warn('Supabase approve review failed', e);
+          }
+        }
+      },
+
+      deleteReview: async function(reviewId, cloudKey) {
+        var cfg = this.getConfig();
+
+        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
+          try {
+            var targetKey = cloudKey;
+            if (!targetKey) {
+              var all = await this.fetchAll();
+              var found = all.find(function(a){ return a.id === reviewId; });
+              if (found && found._cloudKey) targetKey = found._cloudKey;
+            }
+            if (targetKey) {
+              var delUrl = cfg.firebaseUrl.replace(/\/+$/, '') + '/' + targetKey + '.json';
+              await fetch(delUrl, { method: 'DELETE' });
+              Logger.success('Review deleted from Firebase Cloud DB', reviewId);
+            }
+          } catch(e) {
+            Logger.warn('Firebase delete review failed', e);
+          }
+        }
+
+        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          try {
+            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?id=eq.' + encodeURIComponent(reviewId);
+            await fetch(sUrl, {
+              method: 'DELETE',
+              headers: {
+                'apikey': cfg.supabaseAnonKey,
+                'Authorization': 'Bearer ' + cfg.supabaseAnonKey
+              }
+            });
+            Logger.success('Review deleted from Supabase', reviewId);
+          } catch(e) {
+            Logger.warn('Supabase delete review failed', e);
+          }
+        }
+      },
+
+      testConnection: async function() {
+        var cfg = this.getConfig();
+        if (cfg.provider === 'firebase' && cfg.firebaseUrl) {
+          try {
+            var testUrl = cfg.firebaseUrl.replace(/\/+$/, '') + '.json?shallow=true';
+            var resp = await fetch(testUrl, { cache: 'no-store' });
+            return resp.ok;
+          } catch(e) { return false; }
+        }
+        if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          try {
+            var sUrl = cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/comments?select=count';
+            var resp = await fetch(sUrl, {
+              headers: { 'apikey': cfg.supabaseAnonKey, 'Authorization': 'Bearer ' + cfg.supabaseAnonKey },
+              cache: 'no-store'
+            });
+            return resp.ok;
+          } catch(e) { return false; }
+        }
+        return false;
+      }
+    };
+
+    /* ==========================================================================
+       8. Unified Data Persistence Engine (Posts & Moderated Comments)
+       ========================================================================== */
     let rawItemsState = [];
     const postsContainer = document.getElementById('posts');
     const emptyNotice = document.getElementById('emptyPosts');
@@ -2904,7 +3229,7 @@
       return /^https?:\/\//i.test(u || '') ? u : '';
     }
 
-    // Load all data from posts.json (Universal across Netlify & GitHub Pages)
+    // Load all data from posts.json & Cloud Database (Universal across Netlify & GitHub Pages)
     async function loadAllData() {
       // 1. Instant optimistic local render
       try {
@@ -2919,32 +3244,39 @@
       } catch(e){}
 
       // 2. Fetch remote source of truth relative to current page base
+      var remoteList = [];
       try {
         var resp = await fetch('./posts.json?v=' + Date.now(), { cache: 'no-store' });
         if (resp.ok) {
-          var remoteList = await resp.json();
-          if (Array.isArray(remoteList)) {
-            // Merge with local pending comments submitted on this browser
-            var pendingLocal = [];
-            try {
-              pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
-            } catch(e){}
-
-            pendingLocal.forEach(function(localItem) {
-              if (!remoteList.some(function(r){ return r.id === localItem.id; })) {
-                remoteList.push(localItem);
-              }
-            });
-
-            rawItemsState = remoteList;
-            try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState)); } catch(e){}
-            renderAllContent();
-          }
+          var fetched = await resp.json();
+          if (Array.isArray(fetched)) remoteList = fetched;
         }
       } catch(e) {
-        Logger.warn('Remote posts.json fetch error, running on cached state', e);
-        if (rawItemsState.length === 0) renderAllContent();
+        Logger.warn('Remote posts.json fetch error', e);
       }
+
+      // 3. Fetch real-time comments from Cloud Database (Cross-Device Sync)
+      try {
+        var cloudComments = await CommentsCloud.fetchAll();
+        if (Array.isArray(cloudComments) && cloudComments.length > 0) {
+          cloudComments.forEach(function(cloudItem) {
+            var existingIndex = remoteList.findIndex(function(r){ return r.id === cloudItem.id; });
+            if (existingIndex >= 0) {
+              remoteList[existingIndex] = Object.assign({}, remoteList[existingIndex], cloudItem);
+            } else {
+              remoteList.push(cloudItem);
+            }
+          });
+        }
+      } catch(e) {
+        Logger.warn('Cloud comments sync error', e);
+      }
+
+      if (remoteList.length > 0) {
+        rawItemsState = remoteList;
+        try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState)); } catch(e){}
+      }
+      renderAllContent();
     }
 
     function renderAllContent() {
@@ -3204,16 +3536,16 @@
           pending: true
         };
 
-        // Add to local state & pending queue
+        // 1. Submit to Cloud Database (Cross-Device Sync)
+        await CommentsCloud.submitReview(newReview);
+
+        // 2. Add to optimistic local memory state
         rawItemsState.push(newReview);
         try {
-          var pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
-          pendingLocal.push(newReview);
-          localStorage.setItem(CFG.storageKeys.localPendingComments, JSON.stringify(pendingLocal));
           localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState));
         } catch(e){}
 
-        // Send instant notification email to owner
+        // 3. Send instant notification email to owner
         try {
           fetch('https://formsubmit.co/ajax/' + CFG.contactEmail, {
             method: 'POST',
@@ -3242,7 +3574,7 @@
       });
     }
 
-    // Owner Approval Workflow: commits pending: false to posts.json on GitHub
+    // Owner Approval Workflow: commits pending: false to Cloud DB & posts.json on GitHub
     async function handleApproveReview(reviewId) {
       var item = rawItemsState.find(function(r) { return r.id === reviewId; });
       if (!item) return;
@@ -3254,10 +3586,14 @@
       if (modPanel) {
         modPanel.className = 'status-panel active info';
         if (modSpinner) modSpinner.hidden = false;
-        if (modStatus) modStatus.textContent = 'Updating repository and approving review...';
+        if (modStatus) modStatus.textContent = 'Updating cloud database and repository...';
       }
 
       try {
+        // 1. Update in Cloud Database
+        await CommentsCloud.approveReview(reviewId, item._cloudKey);
+
+        // 2. Fetch remote posts.json and commit update to GitHub
         var remote = await GitHubAPI.fetchRemoteFile('posts.json');
         var remoteList = remote.exists ? JSON.parse(remote.content || '[]') : rawItemsState;
 
@@ -3272,13 +3608,10 @@
         // Commit updated posts.json with approved review
         await GitHubAPI.commitFile('posts.json', JSON.stringify(remoteList, null, 2), remote.sha, 'Approve testimonial ' + reviewId);
 
-        // Update local state and remove from pending queue
+        // Update local state
         item.pending = false;
         rawItemsState = remoteList;
         try {
-          var pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
-          pendingLocal = pendingLocal.filter(function(p){ return p.id !== reviewId; });
-          localStorage.setItem(CFG.storageKeys.localPendingComments, JSON.stringify(pendingLocal));
           localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState));
         } catch(e){}
 
@@ -3298,11 +3631,17 @@
       }
     }
 
-    // Owner Deletion Workflow
+    // Owner Deletion Workflow: removes from Cloud DB & GitHub repository
     async function handleDeleteReview(reviewId) {
       if (!confirm(t('confirmDel'))) return;
 
+      var item = rawItemsState.find(function(r) { return r.id === reviewId; });
+
       try {
+        // 1. Delete from Cloud Database
+        await CommentsCloud.deleteReview(reviewId, item ? item._cloudKey : null);
+
+        // 2. Delete from GitHub repository
         var remote = await GitHubAPI.fetchRemoteFile('posts.json');
         var remoteList = remote.exists ? JSON.parse(remote.content || '[]') : rawItemsState;
         remoteList = remoteList.filter(function(r) { return r.id !== reviewId; });
@@ -3311,9 +3650,6 @@
 
         rawItemsState = remoteList;
         try {
-          var pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
-          pendingLocal = pendingLocal.filter(function(p){ return p.id !== reviewId; });
-          localStorage.setItem(CFG.storageKeys.localPendingComments, JSON.stringify(pendingLocal));
           localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState));
         } catch(e){}
 
@@ -3581,23 +3917,109 @@
     // Console Tab Switchers
     const tabPublishBtn = document.getElementById('tabPublishBtn');
     const tabModerateBtn = document.getElementById('tabModerateBtn');
+    const tabCloudBtn = document.getElementById('tabCloudBtn');
     const publishPanel = document.getElementById('publishPanel');
     const moderatePanel = document.getElementById('moderatePanel');
+    const cloudPanel = document.getElementById('cloudPanel');
+    const cloudProviderSelect = document.getElementById('cloudProviderSelect');
+    const cfgFirebaseUrl = document.getElementById('cfgFirebaseUrl');
+    const cfgSupabaseUrl = document.getElementById('cfgSupabaseUrl');
+    const cfgSupabaseKey = document.getElementById('cfgSupabaseKey');
+    const firebaseConfigFields = document.getElementById('firebaseConfigFields');
+    const supabaseConfigFields = document.getElementById('supabaseConfigFields');
+    const btnSaveCloudCfg = document.getElementById('btnSaveCloudCfg');
+    const btnTestCloudCfg = document.getElementById('btnTestCloudCfg');
+    const cloudStatusPanel = document.getElementById('cloudStatusPanel');
+    const cloudStatusMessage = document.getElementById('cloudStatusMessage');
+    const cloudSpinner = document.getElementById('cloudSpinner');
 
-    if (tabPublishBtn && tabModerateBtn) {
+    function syncCloudUIFromConfig() {
+      var cfg = CommentsCloud.getConfig();
+      if (cloudProviderSelect) cloudProviderSelect.value = cfg.provider || 'firebase';
+      if (cfgFirebaseUrl) cfgFirebaseUrl.value = cfg.firebaseUrl || '';
+      if (cfgSupabaseUrl) cfgSupabaseUrl.value = cfg.supabaseUrl || '';
+      if (cfgSupabaseKey) cfgSupabaseKey.value = cfg.supabaseAnonKey || '';
+      if (firebaseConfigFields) firebaseConfigFields.hidden = (cfg.provider !== 'firebase');
+      if (supabaseConfigFields) supabaseConfigFields.hidden = (cfg.provider !== 'supabase');
+    }
+
+    if (cloudProviderSelect) {
+      cloudProviderSelect.addEventListener('change', function() {
+        var prov = cloudProviderSelect.value;
+        if (firebaseConfigFields) firebaseConfigFields.hidden = (prov !== 'firebase');
+        if (supabaseConfigFields) supabaseConfigFields.hidden = (prov !== 'supabase');
+      });
+    }
+
+    if (tabPublishBtn) {
       tabPublishBtn.addEventListener('click', function() {
         tabPublishBtn.classList.add('active');
-        tabModerateBtn.classList.remove('active');
+        if (tabModerateBtn) tabModerateBtn.classList.remove('active');
+        if (tabCloudBtn) tabCloudBtn.classList.remove('active');
         if (publishPanel) publishPanel.hidden = false;
         if (moderatePanel) moderatePanel.hidden = true;
+        if (cloudPanel) cloudPanel.hidden = true;
       });
+    }
 
+    if (tabModerateBtn) {
       tabModerateBtn.addEventListener('click', function() {
         tabModerateBtn.classList.add('active');
-        tabPublishBtn.classList.remove('active');
+        if (tabPublishBtn) tabPublishBtn.classList.remove('active');
+        if (tabCloudBtn) tabCloudBtn.classList.remove('active');
         if (publishPanel) publishPanel.hidden = true;
         if (moderatePanel) moderatePanel.hidden = false;
+        if (cloudPanel) cloudPanel.hidden = true;
         renderTestimonials();
+      });
+    }
+
+    if (tabCloudBtn) {
+      tabCloudBtn.addEventListener('click', function() {
+        tabCloudBtn.classList.add('active');
+        if (tabPublishBtn) tabPublishBtn.classList.remove('active');
+        if (tabModerateBtn) tabModerateBtn.classList.remove('active');
+        if (publishPanel) publishPanel.hidden = true;
+        if (moderatePanel) moderatePanel.hidden = true;
+        if (cloudPanel) cloudPanel.hidden = false;
+        syncCloudUIFromConfig();
+      });
+    }
+
+    if (btnSaveCloudCfg) {
+      btnSaveCloudCfg.addEventListener('click', function() {
+        var newCfg = {
+          provider: cloudProviderSelect ? cloudProviderSelect.value : 'firebase',
+          firebaseUrl: cfgFirebaseUrl ? cfgFirebaseUrl.value.trim() : '',
+          supabaseUrl: cfgSupabaseUrl ? cfgSupabaseUrl.value.trim() : '',
+          supabaseAnonKey: cfgSupabaseKey ? cfgSupabaseKey.value.trim() : ''
+        };
+        CommentsCloud.saveConfig(newCfg);
+        if (cloudStatusPanel && cloudStatusMessage) {
+          cloudStatusPanel.className = 'status-panel active ok';
+          cloudStatusMessage.textContent = (currentLang === 'ar') ? 'تم حفظ إعدادات السحابة بنجاح!' : 'Cloud configuration saved successfully!';
+        }
+      });
+    }
+
+    if (btnTestCloudCfg) {
+      btnTestCloudCfg.addEventListener('click', async function() {
+        if (cloudStatusPanel && cloudStatusMessage) {
+          cloudStatusPanel.className = 'status-panel active info';
+          if (cloudSpinner) cloudSpinner.hidden = false;
+          cloudStatusMessage.textContent = (currentLang === 'ar') ? 'جاري فحص الاتصال بقاعدة البيانات السحابية...' : 'Testing connection to Cloud Database...';
+        }
+        var ok = await CommentsCloud.testConnection();
+        if (cloudStatusPanel && cloudStatusMessage) {
+          if (cloudSpinner) cloudSpinner.hidden = true;
+          if (ok) {
+            cloudStatusPanel.className = 'status-panel active ok';
+            cloudStatusMessage.textContent = (currentLang === 'ar') ? 'تم الاتصال بالسحابة بنجاح! جاهز لمزامنة التعليقات عبر كافة الأجهزة.' : 'Cloud connection established successfully! Ready for real-time cross-device sync.';
+          } else {
+            cloudStatusPanel.className = 'status-panel active err';
+            cloudStatusMessage.textContent = (currentLang === 'ar') ? 'فشل الاتصال: تأكد من صحة الرابط وقواعد الأمان (.read/.write: true)' : 'Connection failed: Check endpoint URL and security rules (.read/.write: true)';
+          }
+        }
       });
     }
 
