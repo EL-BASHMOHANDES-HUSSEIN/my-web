@@ -232,7 +232,7 @@
       top: 0;
       inset-inline: 0;
       z-index: 100;
-      background: rgba(7, 12, 25, 0.75);
+      background: rgba(7, 12, 25, 0.82);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--card-border);
@@ -240,7 +240,7 @@
     }
 
     header.scrolled {
-      background: rgba(7, 12, 25, 0.92);
+      background: rgba(7, 12, 25, 0.94);
       border-color: rgba(101, 214, 245, 0.2);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
@@ -253,7 +253,7 @@
       position: relative;
     }
 
-    /* Brand Link: Completely Transparent, No Solid Black Box */
+    /* Brand Link: Completely Transparent, Solid-Edge Logo, Never Faded */
     .brand-link {
       display: inline-flex;
       align-items: center;
@@ -268,23 +268,13 @@
       height: 40px;
       display: grid;
       place-items: center;
-      opacity: 0;
-      transform: scale(0.7) translateY(-6px);
-      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-    }
-
-    header.scrolled .brand-logo-wrap {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      pointer-events: auto;
     }
 
     .brand-logo-img {
-      width: 100%;
-      height: 100%;
+      width: 38px;
+      height: 38px;
       object-fit: contain;
-      filter: drop-shadow(0 0 10px rgba(101, 214, 245, 0.5));
+      filter: drop-shadow(0 0 10px rgba(101, 214, 245, 0.45));
     }
 
     .brand-title {
@@ -359,8 +349,8 @@
       color: #ffffff;
     }
 
-    /* Fixed & Re-engineered Mobile Hamburger Menu */
-    .burger {
+    /* Re-Engineered Absolute-Positioned Hamburger Menu (Zero Overlap / Layout Shift) */
+    .burger, .hamburger {
       display: none;
       width: 44px;
       height: 44px;
@@ -368,49 +358,59 @@
       border: 1px solid var(--card-border);
       background: var(--bg-card);
       cursor: pointer;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      position: relative;
       padding: 0;
       transition: all 0.25s ease;
-      position: relative;
       z-index: 105;
     }
 
-    .burger:hover {
-      border-color: var(--primary);
+    .burger:hover, .hamburger:hover {
+      border-color: var(--primary-2);
       background: rgba(66, 145, 244, 0.12);
     }
 
-    .burger span {
-      display: block;
+    .burger span, .hamburger span {
+      position: absolute;
+      left: 11px;
       width: 22px;
       height: 2px;
       background: var(--text);
       border-radius: 2px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, background-color 0.25s ease;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, top 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
       transform-origin: center;
-      margin: 0;
     }
 
-    .burger.open span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
+    .burger span:nth-child(1), .hamburger span:nth-child(1) {
+      top: 14px;
+    }
+
+    .burger span:nth-child(2), .hamburger span:nth-child(2) {
+      top: 21px;
+    }
+
+    .burger span:nth-child(3), .hamburger span:nth-child(3) {
+      top: 28px;
+    }
+
+    .burger.open span:nth-child(1), .hamburger.open span:nth-child(1) {
+      top: 21px;
+      transform: rotate(45deg);
       background: var(--primary-2);
     }
 
-    .burger.open span:nth-child(2) {
+    .burger.open span:nth-child(2), .hamburger.open span:nth-child(2) {
       opacity: 0;
       transform: scaleX(0);
     }
 
-    .burger.open span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
+    .burger.open span:nth-child(3), .hamburger.open span:nth-child(3) {
+      top: 21px;
+      transform: rotate(-45deg);
       background: var(--primary-2);
     }
 
     /* ==========================================================================
-       6. Hero Section & Scroll-to-Navbar Animated Centerpiece
+       6. Hero Section & Solid-Edge Restored Centerpiece Logo
        ========================================================================== */
     .hero {
       min-height: 100vh;
@@ -427,20 +427,18 @@
       margin-inline: auto;
     }
 
-    /* Transparent Hero Logo Container (Zero solid black box) */
+    /* High-Resolution Restored Logo Centerpiece (Solid Rich Interior, Transparent Exterior) */
     .hero-logo-stage {
       position: relative;
       width: min(340px, 72vw);
-      margin: 0 auto 20px;
-      will-change: transform, opacity;
-      transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+      margin: 0 auto 24px;
     }
 
     .hero-logo-img {
       width: 100%;
       height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 0 30px rgba(101, 214, 245, 0.5));
+      filter: drop-shadow(0 12px 30px rgba(66, 145, 244, 0.45)) drop-shadow(0 0 16px rgba(101, 214, 245, 0.3));
       animation: floatCenterpiece 6s ease-in-out infinite;
     }
 
@@ -449,11 +447,22 @@
       50% { transform: translateY(-8px); }
     }
 
+    /* Glowing Founder Avatar (Direct GitHub Profile Integration) */
     .avatar-wrapper {
       position: relative;
-      width: 104px;
-      height: 104px;
+      width: 108px;
+      height: 108px;
       margin: 0 auto 20px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2) 60%, var(--accent));
+      box-shadow: 0 0 25px rgba(66, 145, 244, 0.4), 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .avatar-wrapper:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(101, 214, 245, 0.6), 0 12px 35px -8px rgba(0, 0, 0, 0.9);
     }
 
     .avatar {
@@ -461,9 +470,9 @@
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      padding: 3px;
-      background: var(--grad);
-      box-shadow: 0 12px 30px -10px var(--primary);
+      display: block;
+      background: #070c19;
+      border: 2px solid #070c19;
     }
 
     .avatar-badge {
@@ -911,7 +920,7 @@
     }
 
     /* ==========================================================================
-       12. Clean Card & Post Media Containers (Zero Solid Black Boxes)
+       12. Clean Card & Post Media Containers
        ========================================================================== */
     .posts {
       display: grid;
@@ -1022,7 +1031,7 @@
     }
 
     /* ==========================================================================
-       13. Moderated User Testimonials & Reviews System
+       13. Moderated User Testimonials & Comments System (Owner Approval)
        ========================================================================== */
     .testimonials-section {
       position: relative;
@@ -1712,8 +1721,8 @@
        17. Responsive Breakpoints & Menu Alignment Fix
        ========================================================================== */
     @media (max-width: 860px) {
-      .burger {
-        display: flex;
+      .burger, .hamburger {
+        display: block;
       }
 
       .nav-links {
@@ -1791,13 +1800,13 @@
 
   <!-- ==========================================================================
        Header & Navigation (Strictly HUSNEX Brand Identity)
-       ========================================================================== -->
+       ========================================================================== */
+  -->
   <header id="siteHeader">
     <div class="container nav">
       <a href="#home" class="brand-link" aria-label="HUSNEX Home">
-        <!-- Transparent logo that appears smoothly when scrolled -->
-        <div class="brand-logo-wrap" id="navLogoWrap">
-          <img class="brand-logo-img" src="./logo.png" alt="HUSNEX Logo" width="40" height="40">
+        <div class="brand-logo-wrap">
+          <img class="brand-logo-img" src="./logo.png" alt="HUSNEX Logo" width="38" height="38">
         </div>
         <span class="brand-title">
           HUSNEX <span class="brand-dot"></span>
@@ -1821,8 +1830,8 @@
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
           <span id="langText">العربية</span>
         </button>
-        <!-- Re-engineered, Non-overlapping Mobile Hamburger Button -->
-        <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+        <!-- Mathematically Exact Non-overlapping Mobile Hamburger Button -->
+        <button class="burger hamburger" id="burger" aria-label="Toggle navigation" aria-expanded="false">
           <span></span>
           <span></span>
           <span></span>
@@ -1833,19 +1842,18 @@
 
   <main>
     <!-- ==========================================================================
-         Hero Section (Centerpiece Logo Transition Stage)
+         Hero Section (Restored High-Resolution Centerpiece Logo & GitHub Avatar)
          ========================================================================== -->
     <section class="hero" id="home">
       <div class="container hero-inner">
-        <!-- Prominent Hero Centerpiece with Zero Black Box -->
-        <div class="hero-logo-stage reveal" id="heroLogoStage">
-          <img class="hero-logo-img" id="heroLogoImg" src="./logo.png" alt="HUSNEX Official Shield Logo" width="512" height="363">
+        <!-- High-Resolution Centerpiece Logo with Crisp Solid Interior -->
+        <div class="hero-logo-stage reveal">
+          <img class="hero-logo-img" src="./logo.png" alt="HUSNEX Official Shield Logo" width="512" height="363">
         </div>
 
-        <!-- Founder Avatar with Verified Shield Icon -->
+        <!-- Founder Avatar directly integrated with Official GitHub Profile (No Duplicate Logo) -->
         <div class="avatar-wrapper reveal">
-          <img class="avatar" id="founderAvatar" src="./profile.jpg" alt="Hussain Ali" width="104" height="104"
-               onerror="if(this.src!=='https://github.com/el-bashmohandes-hussein.png'){this.src='https://github.com/el-bashmohandes-hussein.png';}">
+          <img class="avatar" id="founderAvatar" src="https://github.com/el-bashmohandes-hussein.png" alt="Hussain Ali" width="108" height="108" onerror="if(this.src!=='./profile.jpg')this.src='./profile.jpg'">
           <div class="avatar-badge" title="Verified Creator">
             <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
           </div>
@@ -2156,7 +2164,7 @@
             </button>
             <button type="button" class="tab-btn" id="tabModerateBtn">
               <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span data-en="Pending Testimonials" data-ar="مراجعة التقييمات">Pending Testimonials</span>
+              <span data-en="Pending Comments" data-ar="التعليقات المعلقة">Pending Comments</span>
               <span class="chip sm" id="modCountBadge" style="padding: 2px 8px; font-size: 0.72rem;">0</span>
             </button>
           </div>
@@ -2476,14 +2484,14 @@
   </button>
 
   <!-- ==========================================================================
-       Client-Side JavaScript Architecture
+       Client-Side JavaScript Architecture (GitHub Pages & Netlify Universal)
        ========================================================================== -->
   <script>
   (function(){
     'use strict';
 
     /* ==========================================================================
-       1. Core System Configuration
+       1. Global System Configuration (Universal for GitHub Pages & Netlify)
        ========================================================================== */
     const CFG = Object.freeze({
       brandName: 'HUSNEX',
@@ -2502,10 +2510,9 @@
       },
       storageKeys: {
         token: 'hx_admin_token',
-        remember: 'hx_remember_token',
         lang: 'hx_preferred_lang',
-        localPostsBackup: 'hx_posts_cache_v2',
-        localTestimonials: 'hx_testimonials_v2'
+        localPostsBackup: 'hx_posts_cache_v3',
+        localPendingComments: 'hx_pending_comments_v3'
       }
     });
 
@@ -2517,6 +2524,7 @@
       error: function(msg, err) { console.error(this.prefix + ' [ERROR] ' + msg, err !== undefined ? err : ''); }
     };
 
+    // Root-relative asset resolution guaranteed on GitHub Pages (/my-web/) and Netlify (/)
     function resolveAssetPath(path) {
       if (!path) return '';
       if (/^(https?:|\/\/|data:|blob:)/i.test(path)) return path;
@@ -2549,7 +2557,7 @@
       emailSent:     { en: 'Message sent successfully! Hussain will reply to you soon.', ar: 'تم إرسال رسالتك بنجاح! سنرد عليك في أقرب وقت.' },
       emailFailed:   { en: 'Direct sending failed. Click below to open in your mail app.', ar: 'تعذر الإرسال الآلي. انقر على الرابط التالي لفتح تطبيق البريد:' },
       revSubmitted:  { en: 'Thank you! Your testimonial has been submitted for moderation.', ar: 'شكراً لك! تم إرسال تقييمك وسيعرض بعد موافقة الإدارة.' },
-      revApproved:   { en: 'Testimonial approved and published live!', ar: 'تمت الموافقة على التقييم ونشره مباشرة!' }
+      revApproved:   { en: 'Comment approved and published live globally!', ar: 'تمت الموافقة على التعليق ونشره للعامة بنجاح!' }
     };
 
     function t(key) {
@@ -2586,8 +2594,7 @@
 
       try { localStorage.setItem(CFG.storageKeys.lang, lang); } catch(e){}
       restartTyping();
-      renderPosts();
-      renderTestimonials();
+      renderAllContent();
     }
 
     if (langBtn) {
@@ -2635,52 +2642,20 @@
     }
 
     /* ==========================================================================
-       4. Lag-Free Hero-to-Navbar Logo Transition & Mobile Navigation
+       4. Navigation, Header Scroll & Mobile Hamburger Menu
        ========================================================================== */
     const siteHeader = document.getElementById('siteHeader');
-    const heroLogoStage = document.getElementById('heroLogoStage');
     const toTopBtn = document.getElementById('toTop');
     const burger = document.getElementById('burger');
     const navLinks = document.getElementById('navLinks');
 
-    // 60fps Scroll Listener with RAF
-    let isTicking = false;
-    function handleScrollUpdate() {
-      var scrollY = window.scrollY || window.pageYOffset;
-      var threshold = 140;
-
-      if (siteHeader) {
-        siteHeader.classList.toggle('scrolled', scrollY > threshold);
-      }
-
-      if (toTopBtn) {
-        toTopBtn.classList.toggle('show', scrollY > 450);
-      }
-
-      // Smooth hero centerpiece fade and subtle scaling down as it approaches navbar
-      if (heroLogoStage && !prefersReducedMotion) {
-        if (scrollY < 300) {
-          var progress = Math.min(1, scrollY / 260);
-          var scale = 1 - (progress * 0.22);
-          var translateY = scrollY * 0.25;
-          var opacity = Math.max(0, 1 - (progress * 1.3));
-          heroLogoStage.style.transform = 'translateY(' + translateY + 'px) scale(' + scale + ')';
-          heroLogoStage.style.opacity = opacity;
-        } else {
-          heroLogoStage.style.opacity = 0;
-        }
-      }
-      isTicking = false;
-    }
-
     window.addEventListener('scroll', function() {
-      if (!isTicking) {
-        window.requestAnimationFrame(handleScrollUpdate);
-        isTicking = true;
-      }
+      var scrollY = window.scrollY || window.pageYOffset;
+      if (siteHeader) siteHeader.classList.toggle('scrolled', scrollY > 70);
+      if (toTopBtn) toTopBtn.classList.toggle('show', scrollY > 450);
     }, { passive: true });
 
-    // Mobile Hamburger Menu
+    // Mathematical Non-overlapping Hamburger Menu Toggle
     if (burger && navLinks) {
       burger.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -2712,7 +2687,7 @@
       });
     }
 
-    // Scroll Reveal
+    // Scroll Reveal Observer
     var revealObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
@@ -2728,7 +2703,6 @@
       });
     }
 
-    // Active Navigation Spy
     var navItems = document.querySelectorAll('.nav-links a');
     var spyObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
@@ -2809,7 +2783,7 @@
               size: Math.round((base64Data.length * 3) / 4)
             });
           };
-          img.onerror = function() { reject(new Error('Image failed to load in memory.')); };
+          img.onerror = function() { reject(new Error('Image failed to load.')); };
           img.src = e.target.result;
         };
         reader.onerror = function() { reject(new Error('FileReader failed.')); };
@@ -2917,53 +2891,79 @@
     };
 
     /* ==========================================================================
-       8. Posts Engine (Zero Data Loss with Optimistic Sync)
+       8. Unified Data Persistence Engine (Posts & Moderated Comments)
        ========================================================================== */
-    let postsState = [];
+    let rawItemsState = [];
     const postsContainer = document.getElementById('posts');
     const emptyNotice = document.getElementById('emptyPosts');
+    const testimonialsGrid = document.getElementById('testimonialsGrid');
+    const moderationList = document.getElementById('moderationList');
+    const modCountBadge = document.getElementById('modCountBadge');
 
     function safeUrl(u) {
       return /^https?:\/\//i.test(u || '') ? u : '';
     }
 
-    async function loadAllPosts() {
-      // 1. Instant local render
+    // Load all data from posts.json (Universal across Netlify & GitHub Pages)
+    async function loadAllData() {
+      // 1. Instant optimistic local render
       try {
         var cached = localStorage.getItem(CFG.storageKeys.localPostsBackup);
         if (cached) {
           var parsed = JSON.parse(cached);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            postsState = parsed;
-            renderPosts();
+            rawItemsState = parsed;
+            renderAllContent();
           }
         }
       } catch(e){}
 
-      // 2. Fetch remote source of truth
+      // 2. Fetch remote source of truth relative to current page base
       try {
         var resp = await fetch('./posts.json?v=' + Date.now(), { cache: 'no-store' });
         if (resp.ok) {
-          var list = await resp.json();
-          if (Array.isArray(list)) {
-            postsState = list;
-            try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(postsState)); } catch(e){}
-            renderPosts();
+          var remoteList = await resp.json();
+          if (Array.isArray(remoteList)) {
+            // Merge with local pending comments submitted on this browser
+            var pendingLocal = [];
+            try {
+              pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
+            } catch(e){}
+
+            pendingLocal.forEach(function(localItem) {
+              if (!remoteList.some(function(r){ return r.id === localItem.id; })) {
+                remoteList.push(localItem);
+              }
+            });
+
+            rawItemsState = remoteList;
+            try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState)); } catch(e){}
+            renderAllContent();
           }
         }
       } catch(e) {
-        if (postsState.length === 0) renderPosts();
+        Logger.warn('Remote posts.json fetch error, running on cached state', e);
+        if (rawItemsState.length === 0) renderAllContent();
       }
+    }
+
+    function renderAllContent() {
+      renderPosts();
+      renderTestimonials();
     }
 
     function renderPosts() {
       if (!postsContainer) return;
       postsContainer.textContent = '';
-      if (emptyNotice) emptyNotice.hidden = (postsState.length > 0);
 
+      var postsList = rawItemsState.filter(function(item) {
+        return item.type !== 'comment' && item.rating === undefined;
+      });
+
+      if (emptyNotice) emptyNotice.hidden = (postsList.length > 0);
       var localeCode = (currentLang === 'ar') ? 'ar-IQ' : 'en-US';
 
-      postsState.forEach(function(post) {
+      postsList.forEach(function(post) {
         var card = document.createElement('article');
         card.className = 'card post reveal show';
 
@@ -3045,40 +3045,6 @@
       });
     }
 
-    /* ==========================================================================
-       9. Moderated User Testimonials Engine
-       ========================================================================== */
-    let testimonialsState = [];
-    const testimonialsGrid = document.getElementById('testimonialsGrid');
-    const moderationList = document.getElementById('moderationList');
-    const modCountBadge = document.getElementById('modCountBadge');
-
-    async function loadTestimonials() {
-      // 1. Instant local render
-      try {
-        var localCached = localStorage.getItem(CFG.storageKeys.localTestimonials);
-        if (localCached) {
-          testimonialsState = JSON.parse(localCached);
-          renderTestimonials();
-        }
-      } catch(e){}
-
-      // 2. Fetch remote source of truth
-      try {
-        var resp = await fetch('./testimonials.json?v=' + Date.now(), { cache: 'no-store' });
-        if (resp.ok) {
-          var remoteList = await resp.json();
-          if (Array.isArray(remoteList)) {
-            testimonialsState = remoteList;
-            try { localStorage.setItem(CFG.storageKeys.localTestimonials, JSON.stringify(testimonialsState)); } catch(e){}
-            renderTestimonials();
-          }
-        }
-      } catch(e) {
-        if (testimonialsState.length === 0) renderTestimonials();
-      }
-    }
-
     function renderStarRatingSVG(rating) {
       var starsHtml = '';
       for (var i = 1; i <= 5; i++) {
@@ -3089,9 +3055,14 @@
     }
 
     function renderTestimonials() {
+      var commentsList = rawItemsState.filter(function(item) {
+        return item.type === 'comment' || item.rating !== undefined;
+      });
+
+      // Public view renders only approved comments
       if (testimonialsGrid) {
         testimonialsGrid.textContent = '';
-        var approvedList = testimonialsState.filter(function(item) { return !item.pending; });
+        var approvedList = commentsList.filter(function(item) { return !item.pending; });
 
         approvedList.forEach(function(item) {
           var card = document.createElement('div');
@@ -3124,25 +3095,25 @@
         });
       }
 
-      // Render Admin Moderation list if admin is active
+      // Admin Moderation view
       if (isAdmin && moderationList) {
-        renderAdminModerationList();
+        renderAdminModerationList(commentsList);
       }
     }
 
-    function renderAdminModerationList() {
+    function renderAdminModerationList(commentsList) {
       if (!moderationList) return;
       moderationList.textContent = '';
 
-      var pendingList = testimonialsState.filter(function(item) { return item.pending; });
+      var pendingList = commentsList.filter(function(item) { return item.pending; });
       if (modCountBadge) modCountBadge.textContent = pendingList.length;
 
-      if (testimonialsState.length === 0) {
-        moderationList.innerHTML = '<p class="empty" style="padding:20px 0;">No reviews available to moderate.</p>';
+      if (commentsList.length === 0) {
+        moderationList.innerHTML = '<p class="empty" style="padding:20px 0;">No comments available to moderate.</p>';
         return;
       }
 
-      testimonialsState.forEach(function(item) {
+      commentsList.forEach(function(item) {
         var modCard = document.createElement('div');
         modCard.className = 'mod-item';
 
@@ -3176,7 +3147,7 @@
           var appBtn = document.createElement('button');
           appBtn.type = 'button';
           appBtn.className = 'btn btn-sm btn-approve';
-          appBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg> <span>Approve &amp; Publish</span>';
+          appBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg> <span>Approve</span>';
           appBtn.addEventListener('click', function() { handleApproveReview(item.id); });
           actions.appendChild(appBtn);
         }
@@ -3223,7 +3194,8 @@
         if (!nameVal || !textVal) return;
 
         var newReview = {
-          id: 'rev_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6),
+          id: 'c_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6),
+          type: 'comment',
           date: new Date().toISOString(),
           name: nameVal,
           role: roleVal || 'Collaborator',
@@ -3232,21 +3204,26 @@
           pending: true
         };
 
-        // Save locally to pending list
-        testimonialsState.push(newReview);
-        try { localStorage.setItem(CFG.storageKeys.localTestimonials, JSON.stringify(testimonialsState)); } catch(e){}
+        // Add to local state & pending queue
+        rawItemsState.push(newReview);
+        try {
+          var pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
+          pendingLocal.push(newReview);
+          localStorage.setItem(CFG.storageKeys.localPendingComments, JSON.stringify(pendingLocal));
+          localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState));
+        } catch(e){}
 
-        // Send instant email notification to owner via FormSubmit so Hussain is alerted immediately
+        // Send instant notification email to owner
         try {
           fetch('https://formsubmit.co/ajax/' + CFG.contactEmail, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({
-              _subject: '[HUSNEX Testimonial Submitted] ' + nameVal + ' (' + selectedStarRating + ' Stars)',
-              reviewer_name: nameVal,
-              role: roleVal || 'Not specified',
-              stars: selectedStarRating,
-              review_text: textVal,
+              _subject: '[HUSNEX Testimonial Pending Approval] ' + nameVal + ' (' + selectedStarRating + ' Stars)',
+              reviewer: nameVal,
+              role: roleVal || 'Collaborator',
+              rating: selectedStarRating,
+              review: textVal,
               date: new Date().toLocaleString()
             })
           }).catch(function(){});
@@ -3265,9 +3242,9 @@
       });
     }
 
-    // Admin Review Approval
+    // Owner Approval Workflow: commits pending: false to posts.json on GitHub
     async function handleApproveReview(reviewId) {
-      var item = testimonialsState.find(function(r) { return r.id === reviewId; });
+      var item = rawItemsState.find(function(r) { return r.id === reviewId; });
       if (!item) return;
 
       var modStatus = document.getElementById('modStatusMessage');
@@ -3281,23 +3258,32 @@
       }
 
       try {
-        var remote = await GitHubAPI.fetchRemoteFile('testimonials.json');
-        var list = remote.exists ? JSON.parse(remote.content || '[]') : testimonialsState;
+        var remote = await GitHubAPI.fetchRemoteFile('posts.json');
+        var remoteList = remote.exists ? JSON.parse(remote.content || '[]') : rawItemsState;
 
-        var target = list.find(function(r) { return r.id === reviewId; });
+        var target = remoteList.find(function(r) { return r.id === reviewId; });
         if (target) {
           target.pending = false;
         } else {
           item.pending = false;
-          list.push(item);
+          remoteList.push(item);
         }
 
-        await GitHubAPI.commitFile('testimonials.json', JSON.stringify(list, null, 2), remote.sha, 'Approve testimonial ' + reviewId);
+        // Commit updated posts.json with approved review
+        await GitHubAPI.commitFile('posts.json', JSON.stringify(remoteList, null, 2), remote.sha, 'Approve testimonial ' + reviewId);
 
-        testimonialsState = list;
-        try { localStorage.setItem(CFG.storageKeys.localTestimonials, JSON.stringify(testimonialsState)); } catch(e){}
+        // Update local state and remove from pending queue
+        item.pending = false;
+        rawItemsState = remoteList;
+        try {
+          var pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
+          pendingLocal = pendingLocal.filter(function(p){ return p.id !== reviewId; });
+          localStorage.setItem(CFG.storageKeys.localPendingComments, JSON.stringify(pendingLocal));
+          localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState));
+        } catch(e){}
 
-        renderTestimonials();
+        renderAllContent();
+
         if (modPanel) {
           modPanel.className = 'status-panel active ok';
           if (modSpinner) modSpinner.hidden = true;
@@ -3312,26 +3298,33 @@
       }
     }
 
+    // Owner Deletion Workflow
     async function handleDeleteReview(reviewId) {
       if (!confirm(t('confirmDel'))) return;
 
       try {
-        var remote = await GitHubAPI.fetchRemoteFile('testimonials.json');
-        var list = remote.exists ? JSON.parse(remote.content || '[]') : testimonialsState;
-        list = list.filter(function(r) { return r.id !== reviewId; });
+        var remote = await GitHubAPI.fetchRemoteFile('posts.json');
+        var remoteList = remote.exists ? JSON.parse(remote.content || '[]') : rawItemsState;
+        remoteList = remoteList.filter(function(r) { return r.id !== reviewId; });
 
-        await GitHubAPI.commitFile('testimonials.json', JSON.stringify(list, null, 2), remote.sha, 'Delete testimonial ' + reviewId);
+        await GitHubAPI.commitFile('posts.json', JSON.stringify(remoteList, null, 2), remote.sha, 'Delete testimonial ' + reviewId);
 
-        testimonialsState = list;
-        try { localStorage.setItem(CFG.storageKeys.localTestimonials, JSON.stringify(testimonialsState)); } catch(e){}
-        renderTestimonials();
+        rawItemsState = remoteList;
+        try {
+          var pendingLocal = JSON.parse(localStorage.getItem(CFG.storageKeys.localPendingComments) || '[]');
+          pendingLocal = pendingLocal.filter(function(p){ return p.id !== reviewId; });
+          localStorage.setItem(CFG.storageKeys.localPendingComments, JSON.stringify(pendingLocal));
+          localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState));
+        } catch(e){}
+
+        renderAllContent();
       } catch(err) {
         alert(t('failed') + err.message);
       }
     }
 
     /* ==========================================================================
-       10. Direct Email Contact Form (FormSubmit Integration)
+       9. Direct Email Contact Form (FormSubmit Integration)
        ========================================================================== */
     const directContactForm = document.getElementById('directContactForm');
     const contactStatusPanel = document.getElementById('contactStatusPanel');
@@ -3403,7 +3396,7 @@
     }
 
     /* ==========================================================================
-       11. Image Upload & Real-Time Preview
+       10. Image Upload & Real-Time Preview
        ========================================================================== */
     const imageInput = document.getElementById('pImage');
     const imageDropzone = document.getElementById('imageDropzone');
@@ -3463,7 +3456,7 @@
     }
 
     /* ==========================================================================
-       12. Publishing Pipeline (SHA Retries & Permanent Persistence)
+       11. Publishing Pipeline (SHA Retries & Permanent Persistence)
        ========================================================================== */
     const postForm = document.getElementById('postForm');
     const publishBtn = document.getElementById('publishBtn');
@@ -3499,6 +3492,7 @@
           var postId = 'post_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
           var newPostObj = {
             id: postId,
+            type: 'post',
             date: new Date().toISOString(),
             title: document.getElementById('pTitle').value.trim(),
             text: document.getElementById('pText').value.trim(),
@@ -3529,9 +3523,9 @@
               await GitHubAPI.commitFile('posts.json', JSON.stringify(updatedList, null, 2), remoteFile.sha, 'Publish post: ' + newPostObj.title);
               committed = true;
 
-              postsState = updatedList;
-              try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(postsState)); } catch(e){}
-              renderPosts();
+              rawItemsState = updatedList;
+              try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState)); } catch(e){}
+              renderAllContent();
 
               postForm.reset();
               clearSelectedImage();
@@ -3556,21 +3550,21 @@
       if (!isAdmin || !confirm(t('confirmDel'))) return;
       try {
         var remote = await GitHubAPI.fetchRemoteFile('posts.json');
-        var currentList = remote.exists ? JSON.parse(remote.content || '[]') : postsState;
+        var currentList = remote.exists ? JSON.parse(remote.content || '[]') : rawItemsState;
         var filtered = currentList.filter(function(p){ return p.id !== postId; });
 
         await GitHubAPI.commitFile('posts.json', JSON.stringify(filtered, null, 2), remote.sha, 'Delete post ' + postId);
 
-        postsState = filtered;
-        try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(postsState)); } catch(e){}
-        renderPosts();
+        rawItemsState = filtered;
+        try { localStorage.setItem(CFG.storageKeys.localPostsBackup, JSON.stringify(rawItemsState)); } catch(e){}
+        renderAllContent();
       } catch(err) {
         alert(t('failed') + err.message);
       }
     }
 
     /* ==========================================================================
-       13. Owner Authentication & Session Management
+       12. Owner Authentication & Session Management
        ========================================================================== */
     const composer = document.getElementById('composer');
     const loginModal = document.getElementById('loginModal');
@@ -3603,15 +3597,14 @@
         tabPublishBtn.classList.remove('active');
         if (publishPanel) publishPanel.hidden = true;
         if (moderatePanel) moderatePanel.hidden = false;
-        renderAdminModerationList();
+        renderTestimonials();
       });
     }
 
     function setAdminState(active) {
       isAdmin = active;
       if (composer) composer.hidden = !active;
-      renderPosts();
-      renderTestimonials();
+      renderAllContent();
     }
 
     if (lockBtn) {
@@ -3683,7 +3676,7 @@
     }
 
     /* ==========================================================================
-       14. Setup Social Channels
+       13. Setup Social Channels
        ========================================================================== */
     function setupContactChannels() {
       var ig = CFG.contacts.instagram.trim();
@@ -3710,7 +3703,7 @@
     }
 
     /* ==========================================================================
-       15. Initialization
+       14. Initialization
        ========================================================================== */
     document.addEventListener('DOMContentLoaded', async function() {
       var yearEl = document.getElementById('year');
@@ -3720,7 +3713,7 @@
       applyLanguage(currentLang);
       initReveal();
 
-      await Promise.all([loadAllPosts(), loadTestimonials()]);
+      await loadAllData();
 
       // Silent Auto-login
       try {
